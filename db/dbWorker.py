@@ -94,6 +94,13 @@ class dbWorker(object):
         q = self.connection.cursor()
         q.execute('SELECT * FROM privacy WHERE user_id = ?', (userid,))
         result = q.fetchall()
+        if len(result) == 0:
+            return dict(
+                user_id=userid,
+                view_mode='all',
+                post_mode='all',
+            )
+
         return dict(
             user_id = result[0][0],
             view_mode = result[0][1],

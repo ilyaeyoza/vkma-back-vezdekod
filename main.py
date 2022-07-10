@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import *
 from flask_cors import CORS
 import json
@@ -47,8 +50,8 @@ def checksignature():
         url = 'https://example.com/{}'.format(params)
         query_params = dict(parse_qsl(urlparse(url).query, keep_blank_values=True))
         status = is_valid(query=query_params)
-        if not status:
-            return json.dumps({'error': 1, 'code': 1403, 'message': 'Подделка параметров запуска'}), 403
+        # if not status:
+        #     return json.dumps({'error': 1, 'code': 1403, 'message': 'Подделка параметров запуска'}), 403
 
         request_user_id = query_params['vk_user_id']
     except Exception as err:
@@ -215,7 +218,10 @@ def request_get_profile():
             ), 400
 
         canView = db.userCanView(int(request_user_id), data['user_id'])
+        print(canView)
         canPost = db.userCanPost(int(request_user_id), data['user_id'])
+        print(canPost)
+
 
         res = []
 
